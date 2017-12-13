@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "fast-csv": "^2.4.1",
+    "mysql": "^2.15.0"
+  }
+}

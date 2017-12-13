@@ -1,0 +1,339 @@
+15COM102 - Management Principles and Practices
+15CHY602. / 12CHY533 - Electrochemistry, Energy Systems and Kinetics
+15ELL301 - Elements of Literary Criticism
+15LAW201 - Indian Constitution
+16CS602 - Advanced Algorithms and Analysis
+16PR621 - Direct Energy Conversion
+15MEC203 - Material Science and Metallurgy
+16CS715 - Foundations of Data Science
+15MAT222 - Differential Equations
+12BUS108 - Fundamentals of Management
+15MAT605 / 12MAT500 - Differential Geometry
+16PR743 - Bio-Energy Conversion
+12ENV100 - Environmental Studies
+16RA711 - Industrial Automation II
+15COM202 - Insurance and Risk Management
+15OEL254 - Introduction to Right to Information Act
+15ELL533/12ELL453 - Indian Literature in Translation
+15CSE363 - Principles of Digital Image Processing
+16MA609 - Mathematical Foundations for Cyber Security Systems
+15CUL232 - Exploring science and technology in ancient india
+MEC365 - Theory of Vibrations
+15BUS101 - Principles of Management
+15COM103 - Financial Accounting
+16VL701 - Embedded Systems Design
+12PHY322 - Intermediate Electrodynamics
+16RA725 - Haptic Interfaces
+CSE457 - Business Intelligence
+16WN621 - Fundamentals of Wireless Communications
+16SN612 - Database and Web Application Security
+15CSE201 - Data Structures and Algorithms
+15BUS301  Principles of International Business
+15COM601 - Advanced Financial Management
+15CSA104 - Introduction to Computing
+HU485 - Software Project Management
+15CHY336 - Polymer Science
+12MAT414  Topology
+15ELL203 - Biography
+16PR611 - Digital Signal Processors
+16TF602 - Advanced Heat Transfer
+16TF603 - Advanced Engineering Thermodynamics
+16RA722 - Swarm Intelligence
+15OEL631 - Advanced Statistical Analysis for Research
+15EEE303 - Electrical Machines II
+15ELL103 - English Prose: The Elizabethan to the Victorian
+16WN602 - Advanced Computer Networks
+15CHY636 / 12CHY562 - Material Science and Nanochemistry
+15CHY613 / 12CHY512 - Solid State and Bio-Inorganic Chemistry
+15CSA304 - Object-Oriented Analysis and Design
+15GER232 - Proficiency in German Language (Lower)
+15MAT201 - Discrete Mathematics
+15OEL251 - Introduction to Computer Hardware
+MEC361 - Fracture Mechanics
+16VL613 - Analog VLSI Design
+15ECE302 - Control Systems Engineering
+16CI733 - Biomedical Instrumentation
+15CHY611 / 12CHY422  Computational Chemistry
+15MAT514 - Partial Differential Equations
+ECE351 - Image Processing
+15MEC236 - Materials Selection in Mechanical Design
+15SWK603 - Social Welfare Policy and Administration
+15PHY103 - Mechanics
+15BUS102 - Introduction to Management
+17PHL503 - Principles of Indian Metaphysics
+ECE463 - Principles of RFID Design
+15MEC302 - Dynamics of Machines
+15MAT105 - Introduction to Calculus and Matrix Theory
+15EEE205 - Electrical and Electronics Engineering
+15CHY101 - General Chemistry I
+MEC401 - Operations Research
+15ECE304 - Microprocessor and Microcontroller
+15CSA100 - Problem Solving and Computer programming
+15CSA201 - Computer Networks
+15MAT512 /12MAT512 - Functional Analysis
+ CSE430 - Computer Language Engineering
+15EEE302 - Digital Systems
+16RA702 - Modelling Mechanical and Electrical Systems
+16MA616 - Mathematical Foundations for VLSI Design
+17SWK504 - Working with Individuals
+15MEC304 - Manufacturing Process II
+15ELL501 / 12ELL401 - Linguistics
+15MAT302 - Numerical Methods
+16RA611 - Introduction to Robotics
+15CSE202 - Object Oriented Programming
+15ELL603/12ELL501  Research Methodology for Language and Literature
+15COM603 - Security Analysis and Portfolio Management
+15CSA203 - Java Programming
+15MAT511 - Advanced Complex Analysis
+EEE371 - Advanced Microcontrollers
+15ELL201 - History of English Literature: Victorian to the Present
+MEC368 - Internal Combustion Engines and Pollution Control
+16CS621 - System Security
+15ELL305 - Canadian Literature
+15HUM240 - Psychology for Engineers
+16PHY204 - Heat and Thermodynamics
+15CSE358 - Natural Language Processing
+15MAT227 - Introduction to Probability and Statistics
+15ENG230 - Business Communication
+15PHY603 / 12PHY543 - Nuclear and Particle Physics
+15CSA202 - Data Structures
+15COM206 - Banking and Insurance
+15ELL232 - Journalism and Mass Media
+15MAT503 - Topology
+EEE458 - Power Convertors
+15COM304 - Investment Management
+16TF601 - Advanced Fluid Dynamics
+15CSE100 - Computational Thinking and Problem Solving
+15MAT652 - Random Process
+12MAT331 - Linear Algebra and Discrete Mathematics
+15ELL202 - American Literature
+15PHY602 / 12PHY544 - Condensed Matter Physics
+15ECE204 - Signal Processing I
+16CS737 - Principles of Digital Image Processing
+16PR734 - Energy Storage Technology
+15CHY638 / 12CHY561 - Supramolecular Chemistry
+15CSE375 - Android Application Development
+15BUS303 - Introduction to Retail Management
+ECE445 - Wireless Communication
+16RA721 - Humanoid Robotics
+15MEC238 - Micro-Electro Mechanical Systems
+15PHY203 - Basic Electronics
+16SN708 - Malware Analysis
+12MAT554 - Stochastic Process
+15ECE202 - Digital Circuits and Systems
+16TF705 - Design of IC Engines and Systems
+EIE413 - Biomedical Instrumentation
+15CSA101 - Basics of Programming
+15EEE202 - Electric Circuits
+EEE431 - Power System Protection and Switchgear
+16VL611 - CMOS Integrated Circuits
+15PHY556 - Python for Scientific Computing
+15MAT228 - Quantitative Techniques
+15MAT505 - Quantitative Techniques and Operations Research
+15CSE337 - Cloud Computing and Services
+15MEC301 - Design of Machine Elements I
+15ELL505 / 12ELL441 - Shakespeare
+15SWK602 - Project Formulation and Management
+ENV200 - Environmental Studies
+15HUM233 - Glimpses of Indian Economy and Polity
+16WN622 - Embedded System Design
+16CI622 - Digital Control Systems
+12MAT411 - Advanced Complex Analysis 
+17PHL502 - Indian Theories of Knowledge
+15COM602 - Small Business and Entrepreneurship
+ECE454 - Speech Processing
+15SWK632 - Urban Community Development and Good Governance
+15MAT303 - Optimization Techniques
+17SWK505 - Working with Groups
+MEC377 - Power Plant Engineering
+15ENG101 - Communicative English
+17PHL501 - Introduction to Philosophical Thinking in India and Europe
+15ECE303 - Linear Integrated Circuits 
+15PHY503 / 12PHY434 - Mathematical Physics
+15COM101 - Accountancy
+15CSE342 - Data Compression
+12PHY344 - Relativity and Modern Physics
+15CSA204 - Operating System
+16WN601 - Basics of Digital Signal Processing
+CA403 - System Security
+15ELL604/12ELL541 - Modern English Drama
+15CHY521 / 12CHY424 - Aromaticity, Stereochemistry & Reaction Mechanism
+15CHY301 - Physical Chemistry III
+EEE454 - Power System Control
+15HUM242 - The Message of Bhagwad Gita
+15SWK642 - Community Care in Mental Health
+15ECE203 - Network Theory
+16CS719 - Information Retrieval
+EEE461 - Advance Control Theory
+15COM207 - Cost and Management Accounting
+15MAT202 - Linear Algebra
+15PHY506  Computational Physics
+15COM301 - Management Accounting
+16VL707 - VLSI Hardware Security and Trust
+ECE431 - Information Theory and Coding Techniques
+15MAL101-  Malayalam I
+15SWK631 - Rural and Tribal Community Development
+15PHY504 / 12PHY429 - Quantum Mechanics I
+15MAT204 - Transforms and Partial Differential Equations
+15COM503 - Research Methodology
+15MAT111 - Calculus and Matrix Algebra
+15PHY501 / 12PHY411 - Classical Mechanics 
+16PR612 - Power Electronic Converters
+15ENG201 - Communicative English (Advanced)
+16SN601 - Advanced Computer Networks and Internet Architectures
+16CSA107 - Introduction to Programming in C
+15CHY201 - Physical Chemistry I
+16RA701 - Computer Programming Including Python and Embedded C
+15CHY302 - Inorganic Chemistry II
+15PHY549 / 12PHY551 - Space Physics
+16MA615 - Numerical Methods and Optimization
+12MAT321 - Probability and Statistics
+16CI742 - Robust Control
+16MAT107 - Calculus
+15OEL238 - Emotional Intelligence
+15CSE301 - Computer Organization and Architecture
+ECE459 - Optical Engineering
+15PHY604 / 12PHY520 - Advanced Electronics
+ECE476 - Analog IC Design
+15SWK601 - Social Legislation for Vulnerable Groups
+17SWK501 - Foundations of Social Work Practice
+16VL715 - Opto Electronic Devices
+15CHY102 - Chemistry I
+15ENG111 - Communicative English
+17SWK502 - Psychosocial Perspectives and Counselling
+15ENV300 - Environmental Science and Sustainability
+16WN603 - Advanced Computer Programming
+15ELL304 - Spiritual Literature
+15BUS203 - Introduction to Marketing Management
+15MAT103 - Mathematical Foundations
+15ELL302 - English Poetry: Modern
+ CSE386 - Net-centric Programming
+17SWK503 - Society, Change and Development
+15BUS302 - Business Ethics and Corporate Social Responsibility
+15CHY601. / 12CHY531 - Physical Methods in Chemistry
+16SN611 - Operating System and Security
+16CS601 - Foundations of Computer Science
+15ELL601/12ELL502 - Contemporary Literary Theory
+15BUS202 - Organisational Behaviour
+16SN704 - Android Internal Security
+15EEE203 - Electromagnetic Theory
+MEC402 - Gas Dynamics and Jet Propulsion
+15COM604 - Project Appraisal and Financial Planning
+16WN712 - Security in Wireless Networks
+15ELL303 - English Drama: Elizabethan to Victorian
+15ELL204 - English Fiction: Victorian
+15LAW211 - Company Law and Secretarial Practice
+15EEE304 - Signals and Systems
+EEE453 - Flexible AC Transmission Systems
+15ELL504 / 12ELL431 - English Fiction
+CA425 - Cloud Computing
+CA401 - Design Patterns
+15MAT301 - Linear Algebra, Queueing Theory and Optimization
+15CSE302 - Database Management Systems
+15MAT501 /12MAT520- Advanced Algebra
+16MA619 - Advanced Engineering Mathematics
+15CSA106 - PC Software
+CSE465 - Parallel and Distributed Computing
+15MEC305 - Thermal Engineering and Fluid Machinery
+15OEL657 - Yoga and Personal Develpoment
+15MEC267 - Composite Materials and Processing
+15OEL265 - Non Profit Organisation
+15CSA301 - Fundamentals of Cryptography
+CSE421 - Net-centric Programming
+16WN713 - 4G Mobile Broandband and Small Cell Networks
+16TF608 - Computational Methods in Thermal and Fluids Engineering
+16PR622 - Operation and Control of Power Systems
+15ENV300 - Environmental science and sustainability
+15CHY612 / 12CHY521 - Heterocyclic and Natural Product Chemistry
+15CSA601 - Enterprise Resource Planning and MIS
+15ELL503 / 12ELL421 - English Prose up to 19th Century
+15CSA303 - Mobile Technologies and Application Development
+CSE352 - Pattern Recognition
+MEC400 - Instrumentation and Control Systems
+15BUS305 - Introduction to Income Tax Law and Practice
+17PHL534 - Indian Philosophy of Language
+15ELL538/12ELL457 - 20th Century American Literature
+15OEL657 - Yoga and Personal Development
+16PR741 - Solar Energy Utilisation
+16VL612 - Digital System Design
+CSE463 - Information Coding Techniques
+16MA623 - Mathematical Foundations for Robotics and Automation
+15ELL602/12ELL511 -  English Poetry: 20th Century
+15MAT102 - Basic Concepts of Mathematics
+15MEC303 - Heat Power Engineering
+15ECE201 - Applied Electromagnetics
+ 16CA307 - Basics of Operatons Research
+15CSA305 - Web Technologies and E-Commerce
+EEE441 - Electrical Drives and Control
+ECE467 - Antenna Systems and Design
+CSE430 - Computer Language Engineering
+16VL602 - Solid State Devices
+15MEC204 - Mechanics of Solids
+15PHY554 / 12PHY553 - Optoelectronics
+15CSA631 - Database Management Services
+15COM501 - Advanced Corporate Accounting
+15EEE201 - Analog Electronic Circuits
+16CA305 - Advanced Software Engineering
+15MAT223 - Discrete Mathematics
+15EEE301 - Control Systems
+15ELL101 - History of English Literature : The Pre-Chaucerian to the Augustan
+16MAT229 - Introduction to Linear Algebra
+15CHY303 - Organic Chemistry II
+15CSA102 - Fundamentals of DBMS
+15PHY547 - Optics
+15PHY555 - Physics of the Atmosphere
+16CS624 - Modern Computer Architecture
+15CSA336 - Embedded Systems
+15CHY511 / 12CHY411 - Concepts in Inorganic Chemistry
+16CA303 - Design and Analysis of Algorithams
+15CSA103 - Fundamentals of Web Technology
+15CSE303 - Theory of Computation
+16MA706 - Computational Optimization
+15PHY546 - Thin Film Technology
+15MEC201 - Engineering Thermodynamics
+CSE400 - Computer Graphics and Visualisation
+15CSE331 - Advanced Algorithms and Analysis
+15MAT203 - Transforms and Complex Analysis
+15MAL101 - Malayalam I
+15BUS204 - Entrepreneurship Development and Project Management
+15CHY501 / 12CHY430 - Group Theory and Quantum Chemistry
+ECE430 - Radio Frequency Engineering
+15SWK641 - Social Work Practice in Mental Health
+16PHY200 - History and Philosophy of Science
+16RA601 - Embedded Systems Design
+MNG400 - Principles of Management
+15MAT104 - Fundamentals of Business Mathematics
+15COM502 - Business Correspondence
+15BUS331 - Financial Services and Markets
+15CSA302 - C# Programming
+CSE381 - Semantic Web
+12MAT513 - Theory of Partial Differential Equations
+15MAT646 -Mathematical Physics
+15CHY335 -   Introduction to Food Chemistry
+EEE351 - Design of Electrical Apparatus
+17PHL504 - Aspects of Western Metaphysics
+15COM201 - Corporate Accounting
+ECE455 - Wavelet-based Signal Processing and Applications
+15CSE341 - Cryptography
+15CSE354 - Machine Learning
+16TF612 - Computational Fluid Dynamics and Heat Transfer
+15ELL502 / 12ELL411 - English Poetry up to the Pre-Romantic
+16MA604 - Mathematical Foundations for Computer Science
+15CSA334 - Data Mining
+15ECO501 - Economic Analysis for Managers
+15ELL102 - English Poetry : The Elizabethan to the Augustan
+15CHY100 - Chemistry
+EEE462 - Digital Control Systems
+15ECE301 - Communication Theory
+16MA622 - Probability and Statistical Inference
+15CSA105 - Business and MIS
+16CA301 - Advanced Computer Networking and Internet
+15COM303 - Direct and Indirect Taxes
+15MAT513 - Graph Theory
+16RA732 - Machine Vision
+15CHY202 - Inorganic Chemistry I
+16SN712 - Digital System Security
+16TF712 - Aerodynamics
+15PHY100 - Physics
+15SAN101 - Sanskrit I
+CSE355 - Advanced Algorithms
