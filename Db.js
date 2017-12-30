@@ -14,8 +14,8 @@ var con = mysql.createConnection({
 con.connect(function (err) {
     if (err) throw err;
     console.log('Connected to Mysql!');
-    // createStudentTable()
-    init()
+    createStudentTable()
+    // init()
     // findCommon()
 
 
@@ -64,7 +64,7 @@ function createStudentTable(){ //Function To Store all Students Details.
     con.query(sql,function(err,result){
         if (err) throw err;
         result.forEach(function(sub){
-            sql = "INSERT IGNORE INTO Students (Name,rollNo,Branch) SELECT Name,rollNo,Branch FROM `"+sub.Code+"` WHERE 1"
+            sql = "INSERT INTO Students (Name,rollNo,Branch,Arrears,Count) SELECT Name,rollNo,Branch,isArrear,0 FROM `"+sub.Code+"` WHERE 1 ON DUPLICATE KEY UPDATE Count = Count + 1 , Arrears = Arrears + isArrear"
             cbCount++;
             con.query(sql,function(err,result){
                 if(err) throw err;
@@ -105,15 +105,19 @@ function findCommon(){ //Function to Find no of common students between Subjects
             let sub1 = result[i].Code;
             for(var j=i+1;j<result.length;j++){
                 let sub2 = result[j].Code;
-                var sql = "SELECT Count(`"+sub1+"`.rollNo) as count FROM `"+sub1+"` INNER JOIN `"+sub2+"` ON `"+sub1+"`.rollNo = `"+sub2+"`.rollNo;"
-                con.query(sql,function(err,result){
-                    result = JSON.stringify(result);
-                    result = JSON.parse(result);
+                var sql = "SELECT Count(`"+sub1+"`.rollNo) as count1 FROM `"+sub1+"` INNER JOIN `"+sub2+"` ON `"+sub1+"`.rollNo = `"+sub2+"`.rollNo WHERE `"+sub1+"`.isArrear = 0 AND `"+sub2+"`.isArrear = 0"
+                var sql2 = "SELECT Count(`"+sub1+"`.rollNo) as count2 FROM `"+sub1+"` INNER JOIN `"+sub2+"` ON `"+sub1+"`.rollNo = `"+sub2+"`.rollNo WHERE `"+sub1+"`.isArrear = 1 OR `"+sub2+"`.isArrear = 1"
+                var sql3 = "SELECT T1.count1 , T2.count2 FROM ("+sql+") AS T1 INNER JOIN ("+sql2+") AS T2 ON 1;"
+                con.query(sql3,function(err,result){
+                    // result = JSON.stringify(result);
+                    // result = JSON.parse(result);
                     if(err) throw err;
                     cbCount++;
-                    var sql2 = "INSERT INTO Matrix VALUES('"+sub1+"','"+sub2+"',"+result[0].count + ");"
-                    console.log(sub1 + '-' + sub2 + '=' + result[0].count)
-                    con.query(sql2,function(err){
+                    var arrears = result[0].count2
+                    var students = result[0].count1 
+                    var sqll = "INSERT INTO Matrix (FromSUB,ToSUB,Count,Arrears) VALUES('"+sub1+"','"+sub2+"',"+students + ","+arrears+");"
+                    console.log(sub1 + '-' + sub2 + '=' + students + "("+arrears+")");
+                    con.query(sqll,function(err){
                         if(err) throw err;
                         cbCount--;
                         console.log('Successfully added into Matrix Table..')
