@@ -4,7 +4,7 @@ var _ = require('underscore')
 var cbCount = 0;
 
 var days = 8;
-var capacityPerSlot = 250;
+var capacityPerSlot = 1500;
 var colors = [];
 
 var con = mysql.createConnection({
@@ -19,7 +19,7 @@ con.connect(function(err){
     console.log('Connected to MYSQL!');
 });
 
-
+var totalBranches = [];
 var totalSubs = [];
 //Subject Constructor
 function Subject(name,code,count,color){
@@ -30,43 +30,39 @@ function Subject(name,code,count,color){
     this.adjSub = [];
     this.branches = [];
     this.colorDomain = [];
-    this.setColor = function(){
-        if(this.colorDomain.length == 0){
-            console.log("Unable to find color for the subject: "+this.code)
-            process.exit(0);
-        }
-        var sub = this; //Due to wierd `this` behaviour in JS.
-         sub.color = sub.colorDomain[0]; //_.find(sub.colorDomain,function(color){return color.capacity >= sub.count;}); //Take the color with lowest capacity
-        sub.color.capacity = sub.color.capacity - sub.count;
-        console.log(sub.color.capacity);
-        // _.sortBy(sub.colorDomain,function(color){
-        //     return -color.count;
-        // }); 
-    }
-    this.updateDomain = function(coloredSub){ //Function to update the domain If coloredSub has been colored
-        var sub = this;
-       if(_.findWhere(coloredSub.adjSub,{sub:sub}) != undefined){ //If this subject is adjacent to the coloredSubject
-            sub.colorDomain = _.filter(sub.colorDomain,function(color){ 
-                return (color.day != coloredSub.color.day) && (color.slot == coloredSub.color.slot) && (color.capacity >= sub.count);
-            });
-        }
-        else if(_.intersection(coloredSub.branches,sub.branches).length > 0){ //If the branch of the colored sub is there in this subject and it is not adjacent Eg:PHY,Chem
-            sub.colorDomain = _.filter(sub.colorDomain,function(color){ 
-                /*
-                    Eg: If maths has been colored at D1S1 and it contains S1CSE students,
-                    Then All the subjects which contain the S1CSE students can have exams at slot no 1 only for consistency but day can be sam
-                */ 
-                return (color.slot == coloredSub.color.slot) && (color.capacity >= sub.count);
-            });
-        }
-        else{
-            sub.colorDomain = _.filter(sub.colorDomain,function(color){ 
-                return  (color.capacity >= sub.count);
-            });
-        }
-        sub.colorDomain = _.sortBy(sub.colorDomain,function(color){return color.count;}); //Sort on asc order based on capacity To ensure that the colors are filled so we could have minimum days
+    this.setColor = function(color){
+       this.color = color;
+       this.color.filled += this.count;
+       var sub = this;
+       this.branches.forEach(function(branch){
+           branch.setSlot(sub.color.slot);
+       });
     }
 }
+
+function Branch(name){
+    this.name = name;
+    this.setSlot = function(slot){
+        this.slot = slot;
+    }
+}
+
+// function Color(code,day,slot,capacity){
+//     this.code = code;
+//     this.day = day;
+//     this.slot = slot;
+//     this.capacity = capacity;
+//     this.filled = 0;
+//     this.subjects = [];
+//     this.subjectDomain = [];
+//     this.updateDomain = function(coloredSub){
+        
+//     }
+
+    
+    
+// }
+
 // Sort function same as compareTo function in Java.
 function sort(a,b){
     if(a.count > b.count){
@@ -108,8 +104,8 @@ function create_colors(){
     for(i=1;i<=days*2;i++){
         day = (i%2 == 0)?parseInt(i/2):parseInt(i/2)+1;
         slot = (i%2 == 0)?2:1;
-        sql = "INSERT IGNORE INTO Colors (Code,Day,Slot,Capacity) VALUES('D"+day+"S"+slot+"',"+day+","+slot+","+capacityPerSlot+")";
-        colors.push({code:"D"+day+"S"+slot,day:day,slot:slot,capacity:capacityPerSlot});
+        sql = "INSERT IGNORE INTO Colors (Code,Day,Slot,Capacity,Filled) VALUES('D"+day+"S"+slot+"',"+day+","+slot+","+capacityPerSlot+",0)";
+        colors.push({code:"D"+day+"S"+slot,day:day,slot:slot,capacity:capacityPerSlot,filled:0});
         con.query(sql,function(err){
             if(err) throw err
         });
@@ -129,7 +125,17 @@ function Graph(){
                 if(err) throw err;
                 var obj = new Subject(sub.Name,sub.Code,sub.Students,sub.color);
                 branch.forEach(function(br){
-                    obj.branches.push(br.Branch);
+                    var selectedBranch = _.find(totalBranches,function(branch){
+                        return branch.name == br.Branch;
+                    });
+                    if(selectedBranch){
+                        obj.branches.push(selectedBranch)
+                    }
+                    else{
+                        selectedBranch = new Branch(br.Branch)
+                        totalBranches.push(selectedBranch);
+                        obj.branches.push(selectedBranch);
+                    }
                 });
                 obj.colorDomain = colors.slice();
                 totalSubs.push(obj);
@@ -168,13 +174,40 @@ function createGraph(){
 
 function generateTable(){
    _.each(totalSubs,function(subject){
-        subject.setColor();
-        var coloredSub = subject;
-        _.each(totalSubs,function(sub){
-            sub.updateDomain(coloredSub);
-        });
+        if(!subject.color){
+            var possibleColors = _.filter(colors,function(color){
+                var remaining = color.capacity - color.filled;
+                var flag = true;
+                for(var i=0;i<subject.branches.length;i++){
+                    if(subject.branches[i].slot && subject.branches[i].slot != color.slot){
+                        flag = false;
+                        break;
+                    }
+                }
+
+                return remaining >= subject.count && flag
+            });
+
+            if(possibleColors.length > 0){
+                subject.setColor(possibleColors[0]);
+                subject.adjSub.forEach(function(sub){
+                    if(!sub.sub.color){
+                        var remaining = subject.color.capacity - subject.color.filled;
+                        if(remaining >= sub.sub.count){
+                            sub.sub.setColor(subject.color);
+                        }
+                    }
+                });
+            }
+            else{
+                console.log("No color available for  "+subject.code);
+                process.exit(0);
+            }
+        }
    });
-   console.log("done!");
+   _.each(totalSubs,function(subject){
+        console.log(subject.code + "-" + subject.color.code);
+   });
 }
 
 //Main function
