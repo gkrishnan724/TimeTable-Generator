@@ -4,7 +4,7 @@ var _ = require('underscore')
 var cbCount = 0;
 
 var days = 8;
-var capacityPerSlot = 1500;
+var capacityPerSlot = 2500;
 var colors = [];
 
 var con = mysql.createConnection({
@@ -28,11 +28,14 @@ function Subject(name,code,count,color){
     this.count = count;
     this.color = color;
     this.adjSub = [];
+    this.nonadjSub = [];
     this.branches = [];
     this.colorDomain = [];
     this.setColor = function(color){
+        var sub = this;
        this.color = color;
        this.color.filled += this.count;
+       this.color.subjects.push(sub);
        var sub = this;
        this.branches.forEach(function(branch){
            branch.setSlot(sub.color.slot);
@@ -105,7 +108,7 @@ function create_colors(){
         day = (i%2 == 0)?parseInt(i/2):parseInt(i/2)+1;
         slot = (i%2 == 0)?2:1;
         sql = "INSERT IGNORE INTO Colors (Code,Day,Slot,Capacity,Filled) VALUES('D"+day+"S"+slot+"',"+day+","+slot+","+capacityPerSlot+",0)";
-        colors.push({code:"D"+day+"S"+slot,day:day,slot:slot,capacity:capacityPerSlot,filled:0});
+        colors.push({code:"D"+day+"S"+slot,day:day,slot:slot,capacity:capacityPerSlot,filled:0,subjects:[]});
         con.query(sql,function(err){
             if(err) throw err
         });
@@ -117,7 +120,6 @@ function Graph(){
     var sql = "SELECT * FROM Courses WHERE 1";
     con.query(sql,function(err,result){
         if (err) throw err;
-        console.log(colors);
         result.forEach(function(sub){
             sql = "SELECT DISTINCT Branch FROM "+sub.Code+" WHERE isArrear = 0"
             cbCount++;
@@ -162,6 +164,10 @@ function createGraph(){
                 sub1.adjSub.push({sub:sub2,count:subject.Count,arrears:subject.Arrears});
                 sub2.adjSub.push({sub:sub1,count:subject.Count,arrears:subject.Arrears});
             }
+            else{
+                sub1.nonadjSub.push(sub2);
+                sub2.nonadjSub.push(sub1);
+            }
         });
         totalSubs.sort(sortOnDegree);
         totalSubs.forEach(function(subject){
@@ -170,6 +176,28 @@ function createGraph(){
         console.log("Graph Created!");
         generateTable();
     });
+}
+
+function CheckColorable(color,subject){
+
+    _.each(subject.branches.length,function(branch){
+            if(branch.slot && branch.slot != color.slot){
+                return false;
+            }
+    });
+
+    _.each(color.subjects,function(sub){
+        if(_.findWhere(subject.adjSub,{sub:sub})){
+            return false;
+        }
+    });
+
+    if(color.capacity - color.filled >= subject.count){
+        return true;
+    }
+    else{
+        return false;
+    }
 }
 
 function generateTable(){
@@ -188,14 +216,15 @@ function generateTable(){
                 return remaining >= subject.count && flag
             });
 
+            possibleColors = _.sortBy(possibleColors,function(color){
+                return color.capacity - color.filled;
+            });
+
             if(possibleColors.length > 0){
                 subject.setColor(possibleColors[0]);
-                subject.adjSub.forEach(function(sub){
-                    if(!sub.sub.color){
-                        var remaining = subject.color.capacity - subject.color.filled;
-                        if(remaining >= sub.sub.count){
-                            sub.sub.setColor(subject.color);
-                        }
+                _.each(subject.nonadjSub,function(sub){
+                    if(!sub.color && CheckColorable(subject.color,sub)){
+                        sub.setColor(subject.color);
                     }
                 });
             }
@@ -205,8 +234,11 @@ function generateTable(){
             }
         }
    });
-   _.each(totalSubs,function(subject){
-        console.log(subject.code + "-" + subject.color.code);
+   _.each(colors,function(color){
+        console.log("Color: "+color.code + " Filled: "+color.filled + " Capacity: "+color.capacity + " Percentage filled: "+color.filled*100/color.capacity) 
+        _.each(color.subjects,function(subject){
+            console.log(subject.code);
+        });
    });
 }
 
