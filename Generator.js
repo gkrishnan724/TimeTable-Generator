@@ -4,7 +4,7 @@ var _ = require('underscore')
 var cbCount = 0;
 
 var days = 8;
-var capacityPerSlot = 2500;
+var capacityPerSlot = 1300;
 var colors = [];
 
 var con = mysql.createConnection({
@@ -36,7 +36,6 @@ function Subject(name,code,count,color){
        this.color = color;
        this.color.filled += this.count;
        this.color.subjects.push(sub);
-       var sub = this;
        this.branches.forEach(function(branch){
            branch.setSlot(sub.color.slot);
        });
@@ -170,29 +169,31 @@ function createGraph(){
             }
         });
         totalSubs.sort(sortOnDegree);
-        totalSubs.forEach(function(subject){
-            subject.adjSub.sort(sort);
-        });
+        // totalSubs.forEach(function(subject){
+        //     subject.adjSub.sort(sort);
+        // });
         console.log("Graph Created!");
         generateTable();
     });
 }
 
 function CheckColorable(color,subject){
-
-    _.each(subject.branches.length,function(branch){
-            if(branch.slot && branch.slot != color.slot){
-                return false;
-            }
-    });
+    var flag = true;
+    // _.each(subject.branches,function(branch){        
+    //     if(branch.slot && branch.slot != color.slot){
+    //         console.log("subject: "+subject.code+" b:"+branch.slot+" c: "+color.slot)            
+    //          flag = false;
+    //          return;
+    //     }
+    // });
 
     _.each(color.subjects,function(sub){
         if(_.findWhere(subject.adjSub,{sub:sub})){
-            return false;
+            flag = false;
         }
     });
 
-    if(color.capacity - color.filled >= subject.count){
+    if(((color.capacity - color.filled) >= subject.count) && flag){
         return true;
     }
     else{
@@ -206,13 +207,15 @@ function generateTable(){
             var possibleColors = _.filter(colors,function(color){
                 var remaining = color.capacity - color.filled;
                 var flag = true;
-                for(var i=0;i<subject.branches.length;i++){
-                    if(subject.branches[i].slot && subject.branches[i].slot != color.slot){
-                        flag = false;
-                        break;
-                    }
+                // _.each(subject.branches,function(branch){
+                //     if(branch.slot && branch.slot != color.slot){
+                //         console.log("subject: "+subject.code+" b:"+branch.slot+" c: "+color.slot)
+                //          flag = false;
+                //     }
+                // });
+                if(! (remaining >= subject.count && flag)){
+                    console.log('COUNT NOT ENOUGH FOR THE COLOR: '+color.code + " Subject: "+subject.code);
                 }
-
                 return remaining >= subject.count && flag
             });
 
@@ -230,15 +233,15 @@ function generateTable(){
             }
             else{
                 console.log("No color available for  "+subject.code);
+                _.each(colors,function(color){
+                    console.log(color.code,color.capacity,color.filled);
+                })
                 process.exit(0);
             }
         }
    });
    _.each(colors,function(color){
-        console.log("Color: "+color.code + " Filled: "+color.filled + " Capacity: "+color.capacity + " Percentage filled: "+color.filled*100/color.capacity) 
-        _.each(color.subjects,function(subject){
-            console.log(subject.code);
-        });
+        console.log(color.code,color.capacity,color.filled);
    });
 }
 
