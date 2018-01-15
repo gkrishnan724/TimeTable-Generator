@@ -4,7 +4,7 @@ var _ = require('underscore')
 var cbCount = 0;
 
 var days = 8;
-var capacityPerSlot = 2500;
+var capacityPerSlot = 2200;
 var colors = [];
 
 var con = mysql.createConnection({
@@ -226,7 +226,6 @@ function generateTable() {
     _.each(totalBranches,function(branch){
         slot = branch.slot?branch.slot:slot==1?2:1;
         var day = 1;
-        console.log("Colors for " + branch.name + " : ")
         while(day<=days){
             _.each(branch.subjects,function(subject){
                 var assignColor = _.find(colors,function(color){
@@ -234,26 +233,41 @@ function generateTable() {
                 });
                 if(assignColor && !subject.color){
                     subject.setColor(assignColor);
-                    console.log("Assigned color: "+assignColor.code + " to "+subject.code)
                 }
             });  
             day++;  
         }
     });
 
-    _.each(totalSubs,function(sub){
-        if(!sub.color){
-            console.log("Color was not available for: "+sub.code);
-            _.each(colors,function(color){
-                if(CheckColorable(color,sub) && !sub.color){
-                    sub.setColor(color);
-                    console.log("Color found for: "+sub.code+" Color: "+sub.color.code);
-                }
-
-            });
+    _.each(totalSubs,function(sub,index){
+        if(!sub.color && sub.branches.length != 0){
+            //Some problem with S3MCA students, In the CSV file S3 MCA has been marked as S5MCA thus the subjects containing these branches have some problem
+            //Ignore those for now
+            console.log("Subject: "+sub.code + "Has not got a color ");
         }
         
-    })
+    });
+
+    _.each(colors,function(color){
+        console.log("Color:"+color.code+" capacity: "+color.capacity+" Filled: "+color.filled + ":  ");
+        _.each(color.subjects,function(sub){
+            console.log("Sub: "+sub.code + " count: "+sub.count);
+        });
+    });
+    test();
+}
+
+function test(){
+    var fail = 0;
+    var pass = 0;
+    _.each(totalBranches,function(branch){
+        var slot = branch.subjects[0].color.slot;
+        _.each(branch.subjects,function(sub){
+            if(slot != sub.color.slot){
+                console.log("Conflict with branch: "+branch.name + " actual slot: "+sub.color.slot + " branch slot: "+slot + " For: "+sub.code)
+            }
+        });
+    });
 }
 
 
