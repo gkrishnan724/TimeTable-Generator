@@ -4,7 +4,7 @@ var _ = require('underscore')
 var cbCount = 0;
 
 var days = 8;
-var capacityPerSlot = 1300;
+var capacityPerSlot = 2500;
 var colors = [];
 
 var con = mysql.createConnection({
@@ -49,10 +49,12 @@ function Branch(name) {
     this.setSlot = function (slot) {
         this.slot = slot;
         var branch = this;
-        _.each(this.adjBranch, function (branch) {
-            if (!branch.slot) {
-                branch.setSlot(slot);
-            }
+        _.each(branch.subjects, function (subject) {
+            _.each(subject.branches,function(br){
+                if(!br.slot){
+                    br.setSlot(branch.slot);
+                }
+            })
         });
     }
 }
@@ -127,8 +129,6 @@ function Graph() {
     var sql = "SELECT * FROM Courses WHERE 1";
     con.query(sql, function (err, result) {
         if (err) throw err;
-        console.log(result);
-        process.exit(0);
         result.forEach(function (sub) {
             sql = "SELECT DISTINCT Branch FROM " + sub.Code + " WHERE isArrear = 0"
             cbCount++;
@@ -218,146 +218,42 @@ function CheckColorable(color, subject) {
 }
 
 function generateTable() {
-    // _.each(totalSubs, function (subject) {
-    //     if (!subject.color) {
-    //         var possibleColors = _.filter(colors, function (color) {
-    //             var remaining = color.capacity - color.filled;
-    //             var flag = true;
-    //             // _.each(subject.branches,function(branch){
-    //             //     if(branch.slot && branch.slot != color.slot){
-    //             //         console.log("subject: "+subject.code+" b:"+branch.slot+" c: "+color.slot)
-    //             //          flag = false;
-    //             //     }
-    //             // });
-    //             return remaining >= subject.count && flag
-    //         });
-
-    //         possibleColors = _.sortBy(possibleColors, function (color) {
-    //             return color.capacity - color.filled;
-    //         });
-
-    //         if (possibleColors.length > 0) {
-    //             subject.setColor(possibleColors[0]);
-    //             _.each(subject.nonadjSub, function (sub) {
-    //                 if (!sub.color && CheckColorable(subject.color, sub)) {
-    //                     sub.setColor(subject.color);
-    //                 }
-    //             });
-    //         }
-    //         else {
-    //             console.log("No color available for  " + subject.code);
-    //             _.each(colors, function (color) {
-    //                 console.log(color.code, color.capacity, color.filled);
-    //             })
-    //             process.exit(0);
-    //         }
-    //     }
-    // });
-
     totalBranches = _.sortBy(totalBranches,function(branch){
         return -branch.subjects.length;
     });
-
+    
+    var slot;
     _.each(totalBranches,function(branch){
-        var slot = branch.slot?branch.slot:1;
+        slot = branch.slot?branch.slot:slot==1?2:1;
         var day = 1;
-        _.each(branch.subjects,function(subject){
-            _.each(colors,function(color){
-                if(color.day == day && color.slot == slot && CheckColorable(color,Subject)){
-                    subject.setColor(color);
-                    return;
+        console.log("Colors for " + branch.name + " : ")
+        while(day<=days){
+            _.each(branch.subjects,function(subject){
+                var assignColor = _.find(colors,function(color){
+                    return color.day == day && color.slot == slot && CheckColorable(color,subject);
+                });
+                if(assignColor && !subject.color){
+                    subject.setColor(assignColor);
+                    console.log("Assigned color: "+assignColor.code + " to "+subject.code)
                 }
+            });  
+            day++;  
+        }
+    });
+
+    _.each(totalSubs,function(sub){
+        if(!sub.color){
+            console.log("Color was not available for: "+sub.code);
+            _.each(colors,function(color){
+                if(CheckColorable(color,sub) && !sub.color){
+                    sub.setColor(color);
+                    console.log("Color found for: "+sub.code+" Color: "+sub.color.code);
+                }
+
             });
-        });
-    });
-
-    _.each(colors, function (color) {
-        console.log("code:" + color.code + " capaicity: " + color.capacity + " filled:" + color.filled + "subjects: "+color.subjects.length);
+        }
         
-    });
-
-    // var colorMatrix = [];
-    // for (var i = 0; i < colors.length; i++) {
-
-    //     for (var j = 0; j < colors.length && j != i; j++) {
-
-    //         if (colors[i].subjects.length > colors[j].subjects.length) {
-    //             var color1 = colors[i];
-    //             var color2 = colors[j];
-    //         }
-    //         else {
-    //             var color1 = colors[j];
-    //             var color2 = colors[i];
-    //         }
-    //         var cnt = 0;
-    //         color1.subjects.forEach(function (sub) {
-
-    //             color2.subjects.forEach(function (sub2) {
-    //                 var adjSub = _.findWhere(sub2.adjSub, { sub: sub })
-    //                 cnt = adjSub ? cnt + adjSub.count : cnt
-    //             });
-    //         });
-
-    //         if (cnt > 0) {
-    //             colorMatrix.push({ color1: color1, color2: color2, count: cnt });
-    //         }
-    //     }
-    //     colors[i].adjColor = _.sortBy(colors[i].adjColor, function (common) {
-    //         return -common.count;
-    //     });
-    // }
-
-    // colorMatrix = _.sortBy(colorMatrix, function (element) {
-    //     return -element.count
-    // });
-
-    // _.each(colorMatrix, function (elm) {
-    //     console.log("color1:" + elm.color1.code + " color2:" + elm.color2.code + " count:" + elm.count);
-    // })
-
-    // process.exit(0);
-
-    // var slot = 1
-    // var day = 1;
-    // _.each(colorMatrix, function (elm) {
-    //     elm.color1.slot = slot;
-    //     elm.color2.slot = slot;
-    //     var list = _.filter(colorMatrix, function (element) {
-    //         var cond = element.color1 == elm.color1 || element.color2 == elm.color2 || element.color2 == elm.color1 || element.color1 == elm.color2;
-    //         return cond && element != elm;
-    //     });
-    //     list.forEach(function (element) {
-    //         element.color1.slot = slot;
-    //         element.color2.slot = slot;
-    //     });
-    //     slot = (slot == 1) ? 2 : 1;
-    // });
-
-
-    // var list = _.filter(colors, function (color) {
-    //     return color.slot = 1;
-    // });
-
-    // var list2 = _.filter(colors, function (color) {
-    //     return color.slot = 2;
-    // });
-
-    // list.forEach(function (color, index) {
-    //     color.code = "D" + parseInt(index + 1) + "S" + color.slot;
-    //     color.day = parseInt(index + 1);
-    // });
-
-    // list2.forEach(function (color, index) {
-    //     color.code = "D" + parseInt(index + 1) + "S" + color.slot;
-    //     color.day = parseInt(index + 1);
-    // });
-
-
-    // _.each(colors, function (color) {
-    //     console.log("code:" + color.code + " capacity: " + color.capacity + " filled:" + color.filled)
-    // });
-
-
+    })
 }
 
 
