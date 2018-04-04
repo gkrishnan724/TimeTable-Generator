@@ -50,8 +50,8 @@ function Branch(name) {
         this.slot = slot;
         var branch = this;
         _.each(branch.subjects, function (subject) {
-            _.each(subject.branches,function(br){
-                if(!br.slot){
+            _.each(subject.branches, function (br) {
+                if (!br.slot) {
                     br.setSlot(branch.slot);
                 }
             })
@@ -59,21 +59,6 @@ function Branch(name) {
     }
 }
 
-// function Color(code,day,slot,capacity){
-//     this.code = code;
-//     this.day = day;
-//     this.slot = slot;
-//     this.capacity = capacity;
-//     this.filled = 0;
-//     this.subjects = [];
-//     this.subjectDomain = [];
-//     this.updateDomain = function(coloredSub){
-
-//     }
-
-
-
-// }
 
 // Sort function same as compareTo function in Java.
 function sort(a, b) {
@@ -117,7 +102,7 @@ function create_colors() {
         day = (i % 2 == 0) ? parseInt(i / 2) : parseInt(i / 2) + 1;
         slot = (i % 2 == 0) ? 2 : 1;
         sql = "INSERT IGNORE INTO Colors (Code,Day,Slot,Capacity,Filled) VALUES('D" + day + "S" + slot + "'," + day + "," + slot + "," + capacityPerSlot + ",0)";
-        colors.push({ code:"D"+day+"S"+slot, day: day, slot: slot, capacity: capacityPerSlot, filled: 0, subjects: [] });
+        colors.push({ code: "D" + day + "S" + slot, day: day, slot: slot, capacity: capacityPerSlot, filled: 0, subjects: [] });
         con.query(sql, function (err) {
             if (err) throw err
         });
@@ -150,11 +135,6 @@ function Graph() {
                         obj.branches.push(selectedBranch);
                     }
                 });
-                // for(i=0;i<obj.branches.length;i++){
-                //     for(j=0;j<obj.branches.length && j!=i;j++){
-                //         obj.branches[i].adjBranch.push(obj.branches[j]);
-                //     }
-                // }
                 totalSubs.push(obj);
                 cbCount--;
                 if (cbCount == 0) {
@@ -195,13 +175,6 @@ function createGraph() {
 
 function CheckColorable(color, subject) {
     var flag = true;
-    // _.each(subject.branches,function(branch){        
-    //     if(branch.slot && branch.slot != color.slot){
-    //         console.log("subject: "+subject.code+" b:"+branch.slot+" c: "+color.slot)            
-    //          flag = false;
-    //          return;
-    //     }
-    // });
 
     _.each(color.subjects, function (sub) {
         if (_.findWhere(subject.adjSub, { sub: sub })) {
@@ -218,53 +191,72 @@ function CheckColorable(color, subject) {
 }
 
 function generateTable() {
-    totalBranches = _.sortBy(totalBranches,function(branch){
+    totalBranches = _.sortBy(totalBranches, function (branch) {
         return -branch.subjects.length;
     });
-    
+
     var slot;
-    _.each(totalBranches,function(branch){
-        slot = branch.slot?branch.slot:slot==1?2:1;
+    _.each(totalBranches, function (branch) {
+        slot = branch.slot ? branch.slot : slot == 1 ? 2 : 1;
         var day = 1;
-        while(day<=days){
-            _.each(branch.subjects,function(subject){
-                var assignColor = _.find(colors,function(color){
-                    return color.day == day && color.slot == slot && CheckColorable(color,subject);
+        while (day <= days) {
+            _.each(branch.subjects, function (subject) {
+                var assignColor = _.find(colors, function (color) {
+                    return color.day == day && color.slot == slot && CheckColorable(color, subject);
                 });
-                if(assignColor && !subject.color){
+                if (assignColor && !subject.color) {
                     subject.setColor(assignColor);
                 }
-            });  
-            day++;  
+            });
+            day++;
         }
     });
 
-    _.each(totalSubs,function(sub,index){
-        if(!sub.color && sub.branches.length != 0){
+    _.each(totalSubs, function (sub, index) {
+        if (!sub.color && sub.branches.length != 0) {
             //Some problem with S3MCA students, In the CSV file S3 MCA has been marked as S5MCA thus the subjects containing these branches have some problem
             //Ignore those for now
-            console.log("Subject: "+sub.code + "Has not got a color ");
+            console.log("Subject: " + sub.code + "Has not got a color ");
         }
-        
+
     });
 
-    _.each(colors,function(color){
-        console.log("Color:"+color.code+" capacity: "+color.capacity+" Filled: "+color.filled + ":  ");
-        _.each(color.subjects,function(sub){
-            console.log("Sub: "+sub.code + " count: "+sub.count);
+    _.each(colors, function (color) {
+        console.log("Color:" + color.code + " capacity: " + color.capacity + " Filled: " + color.filled + ":  ");
+        _.each(color.subjects, function (sub) {
+            console.log("Sub: " + sub.code + " count: " + sub.count);
         });
     });
-    test();
+
+    //Arrear Optimizer.
+
+    _.each(colors, function (color) {
+        var finsubs = [];
+        var totarrears = 0;
+        for (var i = 0; i < color.subjects.length; i++) {
+            for(var j=0; j< color.subjects.length && j!=i && !_.find(finsubs,function(sub){ return sub.sub == color.subjects[j] }); j++){
+                var subs = _.filter(color.subjects.adjSub,function(sub){
+                    totarrears += sub.arrears
+                    return sub.arrears > 0
+                });
+
+                _.each(subs,function(sub){
+                    finsubs.push(sub);
+                });
+            }
+        }
+
+    });
 }
 
-function test(){
+function test() {
     var fail = 0;
     var pass = 0;
-    _.each(totalBranches,function(branch){
+    _.each(totalBranches, function (branch) {
         var slot = branch.subjects[0].color.slot;
-        _.each(branch.subjects,function(sub){
-            if(slot != sub.color.slot){
-                console.log("Conflict with branch: "+branch.name + " actual slot: "+sub.color.slot + " branch slot: "+slot + " For: "+sub.code)
+        _.each(branch.subjects, function (sub) {
+            if (slot != sub.color.slot) {
+                console.log("Conflict with branch: " + branch.name + " actual slot: " + sub.color.slot + " branch slot: " + slot + " For: " + sub.code)
             }
         });
     });
